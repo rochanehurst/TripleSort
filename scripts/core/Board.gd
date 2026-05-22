@@ -109,7 +109,7 @@ func _try_drop() -> void:
 					best_row = row
 					best_col = col
 
-	if best_shelf != null and best_dist < best_shelf.SLOT_SIZE * 0.75:
+	if best_shelf != null and best_dist < best_shelf.SLOT_SIZE * 1.5:
 		best_shelf.place_object(_dragging_object, best_row, best_col)
 		_dragging_object.global_position = best_shelf.get_slot_world_position(best_row, best_col)
 		_dragging_object.end_drag()

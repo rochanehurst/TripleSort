@@ -9,6 +9,7 @@ func _ready() -> void:
 	EventBus.level_completed.connect(_on_level_completed)
 	EventBus.level_failed.connect(_on_level_failed)
 	restart_button.pressed.connect(_on_restart_pressed)
+	restart_button.visible = false
 	_update_labels()
 
 func _update_labels() -> void:
@@ -19,7 +20,7 @@ func _on_score_changed(new_score: int) -> void:
 	score_label.text = "Score: " + str(new_score)
 
 func _on_level_completed() -> void:
-	restart_button.text = "Next Level"
+	restart_button.text = "🎉 Next Level!"
 	restart_button.visible = true
 
 func _on_level_failed() -> void:
