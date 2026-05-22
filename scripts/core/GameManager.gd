@@ -2,7 +2,7 @@ extends Node
 
 @export var match_object_scene: PackedScene
 @export var shelf_scene: PackedScene
-@export var shelf_count: int = 3
+@export var shelf_count: int = 4
 
 var _board: Node3D
 
@@ -17,29 +17,26 @@ func start_level() -> void:
 	GameState.reset_for_level()
 	_board.clear_board()
 	_board.setup_shelves(shelf_scene, shelf_count)
-
-	# Load theme
 	ThemeLoader.load_theme(GameState.current_theme)
 	var object_types = ThemeLoader.get_object_types()
-
-	# Build slot list and shuffle
+	
 	var all_slots = []
 	for shelf_idx in shelf_count:
 		for row in 3:
 			for col in 3:
 				all_slots.append({"shelf": shelf_idx, "row": row, "col": col})
 	all_slots.shuffle()
-
-	# Fill slots with guaranteed sets of 3
-	# 27 slots total, use 24 (leave 3 empty)
+	
+	# 27 filled slots out of 36 total
 	var type_ids = []
-	for i in 8:
+	for i in 9:
 		var obj_type = object_types[i % object_types.size()]
 		for j in 3:
 			type_ids.append(obj_type.type_id)
 	type_ids.shuffle()
-
-	_board.spawn_objects_at_slots(match_object_scene, type_ids, all_slots)
+	
+	# only fill first 27 slots, leave 9 empty
+	_board.spawn_objects_at_slots(match_object_scene, type_ids, all_slots.slice(0, 27))
 	EventBus.level_started.emit()
 
 func _on_level_completed() -> void:

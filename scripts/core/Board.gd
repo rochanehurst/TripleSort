@@ -1,7 +1,7 @@
 extends Node3D
 
 const SHELF_SPACING_Z: float = 0.0
-const SHELF_SPACING_Y: float = 4.5
+const SHELF_SPACING_Y: float = 3.3
 
 @onready var object_container: Node3D = $ObjectContainer
 @onready var camera: Camera3D = $Camera3D

@@ -2,71 +2,60 @@
 
 [ext_resource type="Script" uid="uid://t70kf05doq72" path="res://scripts/core/ShelfUnit.gd" id="1_qj2op"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_qj2op"]
-size = Vector3(3.8, 0.15, 0.8)
+[sub_resource type="BoxMesh" id="BoxMesh_topbot"]
+size = Vector3(3.5, 0.12, 0.6)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qsce0"]
-albedo_color = Color(0.6, 0.4, 0.2, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_wood"]
+albedo_color = Color(0.72, 0.49, 0.25, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_y4nf1"]
-size = Vector3(0.15, 3.5, 0.8)
+[sub_resource type="BoxMesh" id="BoxMesh_side"]
+size = Vector3(0.12, 3.54, 0.6)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kn57l"]
-albedo_color = Color(0.6, 0.4, 0.2, 1)
+[sub_resource type="BoxMesh" id="BoxMesh_hplank"]
+size = Vector3(3.5, 0.1, 0.6)
 
-[sub_resource type="BoxMesh" id="BoxMesh_qsce0"]
-size = Vector3(3.8, 0.12, 0.8)
+[sub_resource type="BoxMesh" id="BoxMesh_back"]
+size = Vector3(3.47, 3.4, 0.08)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y4nf1"]
-albedo_color = Color(0.6, 0.4, 0.2, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_kn57l"]
-size = Vector3(3.8, 3.8, 0.1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a3uip"]
-albedo_color = Color(0.9098039, 0.8352941, 0.6901961, 1)
+[sub_resource type="StandardMaterial3D" id="Mat_cream"]
+albedo_color = Color(0.91, 0.84, 0.70, 1)
 
 [node name="ShelfUnit" type="Node3D" unique_id=1386829052]
 script = ExtResource("1_qj2op")
 
-[node name="ShelfMesh" type="MeshInstance3D" parent="." unique_id=209432351]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-mesh = SubResource("BoxMesh_qj2op")
-surface_material_override/0 = SubResource("StandardMaterial3D_qsce0")
+[node name="BackPanel" type="MeshInstance3D" parent="." unique_id=1634495449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+mesh = SubResource("BoxMesh_back")
+surface_material_override/0 = SubResource("Mat_cream")
+
+[node name="TopPlank" type="MeshInstance3D" parent="." unique_id=31802917]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.67, 0)
+mesh = SubResource("BoxMesh_topbot")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="BottomPlank" type="MeshInstance3D" parent="." unique_id=1569386706]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.67, 0)
+mesh = SubResource("BoxMesh_topbot")
+surface_material_override/0 = SubResource("Mat_wood")
 
 [node name="LeftPanel" type="MeshInstance3D" parent="." unique_id=930982389]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.98, 0, 0)
-mesh = SubResource("BoxMesh_y4nf1")
-surface_material_override/0 = SubResource("StandardMaterial3D_kn57l")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.81, 0, 0)
+mesh = SubResource("BoxMesh_side")
+surface_material_override/0 = SubResource("Mat_wood")
 
 [node name="RightPanel" type="MeshInstance3D" parent="." unique_id=748177659]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.98, 0, 0)
-mesh = SubResource("BoxMesh_y4nf1")
-surface_material_override/0 = SubResource("StandardMaterial3D_kn57l")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.81, 0, 0)
+mesh = SubResource("BoxMesh_side")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="HPlank1" type="MeshInstance3D" parent="." unique_id=2091708984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+mesh = SubResource("BoxMesh_hplank")
+surface_material_override/0 = SubResource("Mat_wood")
+
+[node name="HPlank2" type="MeshInstance3D" parent="." unique_id=51724725]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
+mesh = SubResource("BoxMesh_hplank")
+surface_material_override/0 = SubResource("Mat_wood")
 
 [node name="SlotsContainer" type="Node3D" parent="." unique_id=1278067937]
-
-[node name="Plank0" type="MeshInstance3D" parent="." unique_id=31802917]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
-mesh = SubResource("BoxMesh_qsce0")
-surface_material_override/0 = SubResource("StandardMaterial3D_y4nf1")
-
-[node name="Plank1" type="MeshInstance3D" parent="." unique_id=2091708984]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
-mesh = SubResource("BoxMesh_qsce0")
-surface_material_override/0 = SubResource("StandardMaterial3D_y4nf1")
-
-[node name="Plank2" type="MeshInstance3D" parent="." unique_id=51724725]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
-mesh = SubResource("BoxMesh_qsce0")
-surface_material_override/0 = SubResource("StandardMaterial3D_y4nf1")
-
-[node name="Plank3" type="MeshInstance3D" parent="." unique_id=1569386706]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7, 0)
-mesh = SubResource("BoxMesh_qsce0")
-surface_material_override/0 = SubResource("StandardMaterial3D_y4nf1")
-
-[node name="BackPanel" type="MeshInstance3D" parent="." unique_id=1634495449]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
-mesh = SubResource("BoxMesh_kn57l")
-surface_material_override/0 = SubResource("StandardMaterial3D_a3uip")
