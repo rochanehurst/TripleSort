@@ -22,6 +22,11 @@ GameState="*uid://8h84yrw5erxq"
 AudioManager="*uid://byvlgbqmo0er2"
 ThemeLoader="*uid://bv1dyvfytqm2l"
 
+[display]
+
+window/size/viewport_width=390
+window/size/viewport_height=844
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

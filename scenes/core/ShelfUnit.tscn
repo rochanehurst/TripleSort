@@ -20,6 +20,12 @@ size = Vector3(3.8, 0.12, 0.8)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y4nf1"]
 albedo_color = Color(0.6, 0.4, 0.2, 1)
 
+[sub_resource type="BoxMesh" id="BoxMesh_kn57l"]
+size = Vector3(3.8, 3.8, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a3uip"]
+albedo_color = Color(0.9098039, 0.8352941, 0.6901961, 1)
+
 [node name="ShelfUnit" type="Node3D" unique_id=1386829052]
 script = ExtResource("1_qj2op")
 
@@ -59,3 +65,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_y4nf1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7, 0)
 mesh = SubResource("BoxMesh_qsce0")
 surface_material_override/0 = SubResource("StandardMaterial3D_y4nf1")
+
+[node name="BackPanel" type="MeshInstance3D" parent="." unique_id=1634495449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
+mesh = SubResource("BoxMesh_kn57l")
+surface_material_override/0 = SubResource("StandardMaterial3D_a3uip")
