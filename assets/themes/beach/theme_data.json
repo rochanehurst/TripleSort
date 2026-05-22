@@ -1,0 +1,26 @@
+{
+  "theme_id": "beach",
+  "display_name": "Beach Day",
+  "shelf_color": [0.76, 0.60, 0.42],
+  "background_color": [0.53, 0.81, 0.98],
+  "objects": [
+	{"type_id": "beach_ball_red", "mesh": "beach_ball.glb", "color": [1.0, 0.2, 0.2]},
+	{"type_id": "beach_ball_blue", "mesh": "beach_ball.glb", "color": [0.2, 0.5, 1.0]},
+	{"type_id": "beach_ball_yellow", "mesh": "beach_ball.glb", "color": [1.0, 0.9, 0.1]},
+	{"type_id": "ice_cream_pink", "mesh": "ice_cream.glb", "color": [1.0, 0.6, 0.8]},
+	{"type_id": "ice_cream_mint", "mesh": "ice_cream.glb", "color": [0.6, 1.0, 0.7]},
+	{"type_id": "ice_cream_brown", "mesh": "ice_cream.glb", "color": [0.5, 0.3, 0.1]},
+	{"type_id": "bucket_red", "mesh": "bucket.glb", "color": [1.0, 0.2, 0.2]},
+	{"type_id": "bucket_blue", "mesh": "bucket.glb", "color": [0.2, 0.5, 1.0]},
+	{"type_id": "bucket_yellow", "mesh": "bucket.glb", "color": [1.0, 0.9, 0.1]},
+	{"type_id": "shell_pink", "mesh": "shell.glb", "color": [1.0, 0.7, 0.8]},
+	{"type_id": "shell_white", "mesh": "shell.glb", "color": [0.95, 0.95, 0.9]},
+	{"type_id": "shell_orange", "mesh": "shell.glb", "color": [1.0, 0.5, 0.2]},
+	{"type_id": "fish_red", "mesh": "fish.glb", "color": [1.0, 0.2, 0.2]},
+	{"type_id": "fish_blue", "mesh": "fish.glb", "color": [0.2, 0.5, 1.0]},
+	{"type_id": "fish_yellow", "mesh": "fish.glb", "color": [1.0, 0.9, 0.1]},
+	{"type_id": "crab_red", "mesh": "crab.glb", "color": [1.0, 0.2, 0.2]},
+	{"type_id": "crab_orange", "mesh": "crab.glb", "color": [1.0, 0.5, 0.1]},
+	{"type_id": "crab_pink", "mesh": "crab.glb", "color": [1.0, 0.6, 0.8]}
+  ]
+}

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 EventBus="*uid://cl4rlw1nhtpif"
 GameState="*uid://8h84yrw5erxq"
 AudioManager="*uid://byvlgbqmo0er2"
+ThemeLoader="*uid://bv1dyvfytqm2l"
 
 [physics]
 

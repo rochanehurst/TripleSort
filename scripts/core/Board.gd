@@ -40,10 +40,13 @@ func spawn_objects_at_slots(object_scene: PackedScene, type_ids: Array, slot_lis
 		object_container.add_child(obj)
 		obj.type_id = type_ids[idx]
 		var mat = StandardMaterial3D.new()
-		mat.albedo_color = type_colors.get(obj.type_id, Color(1, 1, 1))
+		mat.albedo_color = ThemeLoader.get_color_for_type(obj.type_id)
+		mat.roughness = 0.7
+		mat.metallic = 0.1
 		obj.get_node("MeshInstance3D").material_override = mat
 		var world_pos = shelf.get_slot_world_position(slot.row, slot.col)
 		obj.position = world_pos
+		obj.rotation.y = randf_range(-0.15, 0.15)
 		shelf.place_object(obj, slot.row, slot.col)
 
 func _input(event: InputEvent) -> void:

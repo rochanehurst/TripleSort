@@ -18,7 +18,11 @@ func start_level() -> void:
 	_board.clear_board()
 	_board.setup_shelves(shelf_scene, shelf_count)
 
-	# Build slot positions and shuffle them so empty slots are random
+	# Load theme
+	ThemeLoader.load_theme(GameState.current_theme)
+	var object_types = ThemeLoader.get_object_types()
+
+	# Build slot list and shuffle
 	var all_slots = []
 	for shelf_idx in shelf_count:
 		for row in 3:
@@ -26,13 +30,13 @@ func start_level() -> void:
 				all_slots.append({"shelf": shelf_idx, "row": row, "col": col})
 	all_slots.shuffle()
 
-	# 3 shelves x 3 rows x 3 cols = 27 slots
-	# Use 24 slots (8 per type x 3 types), leave 3 empty
-	var types = ["type_a", "type_b", "type_c"]
+	# Fill slots with guaranteed sets of 3
+	# 27 slots total, use 24 (leave 3 empty)
 	var type_ids = []
-	for t in types:
-		for i in 8:
-			type_ids.append(t)
+	for i in 8:
+		var obj_type = object_types[i % object_types.size()]
+		for j in 3:
+			type_ids.append(obj_type.type_id)
 	type_ids.shuffle()
 
 	_board.spawn_objects_at_slots(match_object_scene, type_ids, all_slots)

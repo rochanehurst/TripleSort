@@ -40,12 +40,11 @@ func get_object(row: int, col: int):
 	return slots[row][col]
 
 func check_matches() -> void:
-	# Clean stale references first
 	for row in ROW_COUNT:
 		for col in SLOTS_PER_ROW:
 			if slots[row][col] != null and not is_instance_valid(slots[row][col]):
 				slots[row][col] = null
-
+	
 	for row in ROW_COUNT:
 		for col in range(SLOTS_PER_ROW - 2):
 			var a = slots[row][col]
@@ -53,6 +52,7 @@ func check_matches() -> void:
 			var c = slots[row][col + 2]
 			if a == null or b == null or c == null:
 				continue
+			print("Checking: ", a.type_id, " | ", b.type_id, " | ", c.type_id)
 			if a.type_id == b.type_id and b.type_id == c.type_id:
 				_clear_match(row, col)
 				return

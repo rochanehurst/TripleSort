@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dr4gdg574v0ow" path="res://scripts/objects/MatchObject.gd" id="1_k6ukn"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_k6ukn"]
+size = Vector3(0.85, 0.85, 0.85)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0jfsb"]
 
