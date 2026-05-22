@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bpiuffeau3g5y" path="res://scenes/core/SlotBar.tscn" id="3_ij4fv"]
 [ext_resource type="PackedScene" uid="uid://d0efv41km3djc" path="res://scenes/core/GameManager.tscn" id="4_0oerv"]
 [ext_resource type="PackedScene" uid="uid://c4c4y53x3sk3s" path="res://scenes/objects/MatchObject.tscn" id="5_bs5yt"]
+[ext_resource type="PackedScene" uid="uid://bvu4oqw00cpae" path="res://scenes/ui/HUD.tscn" id="6_ij4fv"]
 
 [node name="GameScene" type="Node" unique_id=59745199]
 script = ExtResource("1_7b45w")
@@ -15,3 +16,5 @@ script = ExtResource("1_7b45w")
 
 [node name="GameManager" parent="." unique_id=707595076 instance=ExtResource("4_0oerv")]
 match_object_scene = ExtResource("5_bs5yt")
+
+[node name="Hud" parent="." unique_id=87750390 instance=ExtResource("6_ij4fv")]

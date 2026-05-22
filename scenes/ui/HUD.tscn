@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bvu4oqw00cpae"]
+
+[ext_resource type="Script" uid="uid://ddjkd0m6yfxqv" path="res://scripts/ui/HUD.gd" id="1_kw0id"]
+
+[node name="Hud" type="CanvasLayer" unique_id=87750390]
+script = ExtResource("1_kw0id")
+
+[node name="ScoreLabel" type="Label" parent="." unique_id=27466241]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 43.0
+
+[node name="LevelLabel" type="Label" parent="." unique_id=1201476474]
+offset_left = 20.0
+offset_top = 60.0
+offset_right = 60.0
+offset_bottom = 83.0
+
+[node name="RestartButton" type="Button" parent="." unique_id=260461420]
+offset_left = 20.0
+offset_top = 120.0
+offset_right = 28.0
+offset_bottom = 128.0
