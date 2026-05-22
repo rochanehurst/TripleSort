@@ -19,3 +19,6 @@ signal score_changed(new_score: int)
 # === UI ===
 signal hint_requested()
 signal pause_toggled(is_paused: bool)
+
+# === BOARD ===
+signal board_changed()

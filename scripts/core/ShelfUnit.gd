@@ -1,11 +1,11 @@
 extends Node3D
 
-const SLOTS_PER_ROW: int = 6
+const SLOTS_PER_ROW: int = 3
 const ROW_COUNT: int = 3
 const SLOT_SIZE: float = 1.1
 
-var depth_index: int = 0      # 0 = front, 1 = back, etc.
-var slots: Array = []         # 2D array [row][col] of slot data
+var depth_index: int = 0
+var slots: Array = []
 
 @onready var slots_container: Node3D = $SlotsContainer
 
@@ -40,22 +40,32 @@ func get_object(row: int, col: int):
 	return slots[row][col]
 
 func check_matches() -> void:
+	# Clean stale references first
+	for row in ROW_COUNT:
+		for col in SLOTS_PER_ROW:
+			if slots[row][col] != null and not is_instance_valid(slots[row][col]):
+				slots[row][col] = null
+
 	for row in ROW_COUNT:
 		for col in range(SLOTS_PER_ROW - 2):
 			var a = slots[row][col]
 			var b = slots[row][col + 1]
 			var c = slots[row][col + 2]
-			if a != null and b != null and c != null:
-				if a.type_id == b.type_id and b.type_id == c.type_id:
-					_clear_match(row, col)
-					return
+			if a == null or b == null or c == null:
+				continue
+			if a.type_id == b.type_id and b.type_id == c.type_id:
+				_clear_match(row, col)
+				return
 
 func _clear_match(row: int, start_col: int) -> void:
+	var matched_type = ""
 	for col in range(start_col, start_col + 3):
 		var obj = slots[row][col]
-		if obj != null:
+		if obj != null and is_instance_valid(obj):
+			matched_type = obj.type_id
 			slots[row][col] = null
 			obj.play_match_animation()
-	EventBus.match_found.emit(slots[row][start_col].type_id if slots[row][start_col] else "")
-	GameState.add_score(100)
-	EventBus.emit_signal("board_changed")
+	if matched_type != "":
+		EventBus.match_found.emit(matched_type)
+		GameState.add_score(100)
+		EventBus.board_changed.emit()

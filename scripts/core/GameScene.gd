@@ -5,3 +5,4 @@ extends Node
 
 func _ready() -> void:
 	game_manager.setup(board)
+	game_manager.start_level()

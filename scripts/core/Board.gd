@@ -1,38 +1,30 @@
 extends Node3D
 
-const COLS: int = 6
-const ROWS: int = 7
-const LAYERS: int = 3
-
-const CELL_SIZE_X: float = 1.1
-const CELL_SIZE_Y: float = 1.1
-const LAYER_OFFSET_X: float = 0.15
-const LAYER_OFFSET_Y: float = 0.15
-const LAYER_OFFSET_Z: float = 0.5
+const SHELF_SPACING_Z: float = 0.6
+const SHELF_SPACING_Y: float = 4.0
 
 @onready var object_container: Node3D = $ObjectContainer
 @onready var camera: Camera3D = $Camera3D
 
-var _grid: Array = []
-var _active_objects: Array = []
+var shelves: Array = []
+var _dragging_object = null
+var _drag_origin_shelf = null
+var _drag_origin_row: int = -1
+var _drag_origin_col: int = -1
+var _drag_plane: Plane
 
 func _ready() -> void:
-	EventBus.match_found.connect(_on_match_found)
-	EventBus.slots_full.connect(_on_slots_full)
-	_init_grid()
+	EventBus.connect("board_changed", _on_board_changed)
 
-func _init_grid() -> void:
-	_grid.clear()
-	for layer in LAYERS:
-		var layer_data = []
-		for row in ROWS:
-			var row_data = []
-			for col in COLS:
-				row_data.append(null)
-			layer_data.append(row_data)
-		_grid.append(layer_data)
+func setup_shelves(shelf_scene: PackedScene, shelf_count: int) -> void:
+	for i in shelf_count:
+		var shelf = shelf_scene.instantiate()
+		object_container.add_child(shelf)
+		shelf.position = Vector3(0, -i * SHELF_SPACING_Y, -i * SHELF_SPACING_Z)
+		shelf.setup(i)
+		shelves.append(shelf)
 
-func spawn_objects(object_scene: PackedScene, type_ids: Array) -> void:
+func spawn_objects_at_slots(object_scene: PackedScene, type_ids: Array, slot_list: Array) -> void:
 	var type_colors = {
 		"type_a": Color(1, 0.2, 0.2),
 		"type_b": Color(0.2, 0.5, 1),
@@ -41,100 +33,108 @@ func spawn_objects(object_scene: PackedScene, type_ids: Array) -> void:
 		"type_e": Color(1, 0.4, 0.1),
 		"type_f": Color(0.8, 0.2, 1),
 	}
-	var idx = 0
-	for layer in LAYERS:
-		for row in ROWS:
-			for col in COLS:
-				if idx >= type_ids.size():
-					return
-				var obj = object_scene.instantiate()
-				object_container.add_child(obj)
-				obj.type_id = type_ids[idx]
-				obj.position = _grid_to_world(col, row, layer)
-				var mat = StandardMaterial3D.new()
-				mat.albedo_color = type_colors.get(obj.type_id, Color(1,1,1))
-				obj.get_node("MeshInstance3D").material_override = mat
-				_grid[layer][row][col] = obj
-				_active_objects.append(obj)
-				obj.grid_col = col
-				obj.grid_row = row
-				obj.grid_layer = layer
-				obj.on_removed_callback = _on_object_removed
-				_update_blocked_state(col, row, layer, obj)
-				idx += 1
-				
-func _grid_to_world(col: int, row: int, layer: int) -> Vector3:
-	var board_width = COLS * CELL_SIZE_X
-	var board_height = ROWS * CELL_SIZE_Y
-	var x = (col * CELL_SIZE_X) - (board_width / 2.0) + (layer * LAYER_OFFSET_X)
-	var y = -(row * CELL_SIZE_Y) + (board_height / 2.0) - (layer * LAYER_OFFSET_Y)
-	var z = layer * LAYER_OFFSET_Z
-	return Vector3(x, y, z)
-
-func _update_blocked_state(col: int, row: int, layer: int, obj) -> void:
-	if layer == 0:
-		obj.set_blocked(false)
-		return
-	var blocked = _has_front_neighbor(col, row, layer)
-	obj.set_blocked(blocked)
-
-func _has_front_neighbor(col: int, row: int, layer: int) -> bool:
-	for front_layer in range(0, layer):
-		for dc in [-1, 0, 1]:
-			for dr in [-1, 0, 1]:
-				var nc = col + dc
-				var nr = row + dr
-				if nc < 0 or nc >= COLS or nr < 0 or nr >= ROWS:
-					continue
-				if _grid[front_layer][nr][nc] != null:
-					return true
-	return false
-
-func refresh_blocking() -> void:
-	for layer in LAYERS:
-		for row in ROWS:
-			for col in COLS:
-				var obj = _grid[layer][row][col]
-				if obj != null and is_instance_valid(obj):
-					_update_blocked_state(col, row, layer, obj)
-
-func _on_object_removed(col: int, row: int, layer: int) -> void:
-	_grid[layer][row][col] = null
-	refresh_blocking()
-	_active_objects = _active_objects.filter(
-		func(o): return o != null and is_instance_valid(o) and not o.is_collected
-	)
-	if _active_objects.is_empty():
-		EventBus.level_completed.emit()
+	for idx in type_ids.size():
+		var slot = slot_list[idx]
+		var shelf = shelves[slot.shelf]
+		var obj = object_scene.instantiate()
+		object_container.add_child(obj)
+		obj.type_id = type_ids[idx]
+		var mat = StandardMaterial3D.new()
+		mat.albedo_color = type_colors.get(obj.type_id, Color(1, 1, 1))
+		obj.get_node("MeshInstance3D").material_override = mat
+		var world_pos = shelf.get_slot_world_position(slot.row, slot.col)
+		obj.position = world_pos
+		shelf.place_object(obj, slot.row, slot.col)
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventScreenTouch and event.pressed:
-		_handle_tap(event.position)
-	elif event is InputEventMouseButton and event.pressed:
-		_handle_tap(event.position)
+	if event is InputEventMouseButton:
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			_try_start_drag(event.position)
+		elif not event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			_try_drop()
+	elif event is InputEventScreenTouch:
+		if event.pressed:
+			_try_start_drag(event.position)
+		else:
+			_try_drop()
+	elif event is InputEventMouseMotion and _dragging_object != null:
+		_update_drag(event.position)
+	elif event is InputEventScreenDrag and _dragging_object != null:
+		_update_drag(event.position)
 
-func _handle_tap(screen_pos: Vector2) -> void:
-	print("Tap at: ", screen_pos)
+func _try_start_drag(screen_pos: Vector2) -> void:
 	var from = camera.project_ray_origin(screen_pos)
 	var to = from + camera.project_ray_normal(screen_pos) * 100.0
 	var space = get_world_3d().direct_space_state
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	var result = space.intersect_ray(query)
-	print("Ray result: ", result)
 	if result and result.collider is StaticBody3D:
 		var obj = result.collider
-		if obj.has_method("on_tapped") and not obj.is_blocked:
-			obj.on_tapped()
+		if obj.has_method("start_drag") and not obj.is_blocked:
+			_dragging_object = obj
+			_drag_origin_shelf = obj.current_shelf
+			_drag_origin_row = obj.grid_row
+			_drag_origin_col = obj.grid_col
+			_drag_origin_shelf.remove_object(_drag_origin_row, _drag_origin_col)
+			_drag_plane = Plane(Vector3(0, 0, 1), obj.global_position.z)
+			obj.start_drag()
 
-func _on_match_found(_type_id: String) -> void:
-	pass
+func _update_drag(screen_pos: Vector2) -> void:
+	var from = camera.project_ray_origin(screen_pos)
+	var dir = camera.project_ray_normal(screen_pos)
+	var hit = _drag_plane.intersects_ray(from, dir)
+	if hit:
+		_dragging_object.global_position = hit
 
-func _on_slots_full() -> void:
-	EventBus.level_failed.emit()
+func _try_drop() -> void:
+	if _dragging_object == null:
+		return
+	var best_shelf = null
+	var best_row = -1
+	var best_col = -1
+	var best_dist = INF
+
+	for shelf in shelves:
+		for row in shelf.ROW_COUNT:
+			for col in shelf.SLOTS_PER_ROW:
+				if not shelf.is_slot_empty(row, col):
+					continue
+				var slot_pos = shelf.get_slot_world_position(row, col)
+				var drag_pos_2d = Vector2(_dragging_object.global_position.x, _dragging_object.global_position.y)
+				var slot_pos_2d = Vector2(slot_pos.x, slot_pos.y)
+				var dist = drag_pos_2d.distance_to(slot_pos_2d)
+				if dist < best_dist:
+					best_dist = dist
+					best_shelf = shelf
+					best_row = row
+					best_col = col
+
+	if best_shelf != null and best_dist < best_shelf.SLOT_SIZE * 0.75:
+		best_shelf.place_object(_dragging_object, best_row, best_col)
+		_dragging_object.global_position = best_shelf.get_slot_world_position(best_row, best_col)
+		_dragging_object.end_drag()
+		best_shelf.check_matches()
+		_dragging_object = null
+	else:
+		_drag_origin_shelf.place_object(_dragging_object, _drag_origin_row, _drag_origin_col)
+		_dragging_object.global_position = _drag_origin_shelf.get_slot_world_position(
+			_drag_origin_row, _drag_origin_col)
+		_dragging_object.end_drag()
+		_dragging_object = null
+
+func _on_board_changed() -> void:
+	_check_win()
+
+func _check_win() -> void:
+	for shelf in shelves:
+		for row in shelf.ROW_COUNT:
+			for col in shelf.SLOTS_PER_ROW:
+				if not shelf.is_slot_empty(row, col):
+					return
+	EventBus.level_completed.emit()
 
 func clear_board() -> void:
-	for obj in _active_objects:
-		if is_instance_valid(obj):
-			obj.queue_free()
-	_active_objects.clear()
-	_init_grid()
+	for shelf in shelves:
+		if is_instance_valid(shelf):
+			shelf.queue_free()
+	shelves.clear()
