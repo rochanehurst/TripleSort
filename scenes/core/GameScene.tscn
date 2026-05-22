@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cacxb0rxlmo2h"]
 
-[ext_resource type="Script" uid="uid://bbquj64t5c55i" path="res://scenes/core/GameScene.gd" id="1_7b45w"]
+[ext_resource type="Script" uid="uid://bbquj64t5c55i" path="res://scripts/core/GameScene.gd" id="1_7b45w"]
 [ext_resource type="PackedScene" uid="uid://bvbqrnl8bj4dp" path="res://scenes/core/Board.tscn" id="2_bs5yt"]
 [ext_resource type="PackedScene" uid="uid://bpiuffeau3g5y" path="res://scenes/core/SlotBar.tscn" id="3_ij4fv"]
 [ext_resource type="PackedScene" uid="uid://d0efv41km3djc" path="res://scenes/core/GameManager.tscn" id="4_0oerv"]

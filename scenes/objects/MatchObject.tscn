@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c4c4y53x3sk3s"]
 
-[ext_resource type="Script" uid="uid://dr4gdg574v0ow" path="res://scenes/objects/MatchObject.gd" id="1_k6ukn"]
+[ext_resource type="Script" uid="uid://dr4gdg574v0ow" path="res://scripts/objects/MatchObject.gd" id="1_k6ukn"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_k6ukn"]
 
