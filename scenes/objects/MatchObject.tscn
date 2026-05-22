@@ -2,18 +2,18 @@
 
 [ext_resource type="Script" uid="uid://dr4gdg574v0ow" path="res://scripts/objects/MatchObject.gd" id="1_k6ukn"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_k6ukn"]
-size = Vector3(0.85, 0.85, 0.85)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_0jfsb"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_k6ukn"]
+size = Vector3(0.8, 0.8, 0.8)
 
 [node name="MatchObject" type="StaticBody3D" unique_id=475772464]
 script = ExtResource("1_k6ukn")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=144684701]
-mesh = SubResource("BoxMesh_k6ukn")
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=1592647434]
+pixel_size = 0.001
+billboard = 1
+alpha_cut = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1714606006]
-shape = SubResource("BoxShape3D_0jfsb")
+shape = SubResource("BoxShape3D_k6ukn")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2048898374]

@@ -23,30 +23,17 @@ func setup_shelves(shelf_scene: PackedScene, shelf_count: int) -> void:
 		shelf.position = Vector3(0, -i * SHELF_SPACING_Y, -i * SHELF_SPACING_Z)
 		shelf.setup(i)
 		shelves.append(shelf)
-
 func spawn_objects_at_slots(object_scene: PackedScene, type_ids: Array, slot_list: Array) -> void:
-	var type_colors = {
-		"type_a": Color(1, 0.2, 0.2),
-		"type_b": Color(0.2, 0.5, 1),
-		"type_c": Color(0.2, 0.9, 0.2),
-		"type_d": Color(1, 0.8, 0.1),
-		"type_e": Color(1, 0.4, 0.1),
-		"type_f": Color(0.8, 0.2, 1),
-	}
 	for idx in type_ids.size():
 		var slot = slot_list[idx]
 		var shelf = shelves[slot.shelf]
 		var obj = object_scene.instantiate()
 		object_container.add_child(obj)
 		obj.type_id = type_ids[idx]
-		var mat = StandardMaterial3D.new()
-		mat.albedo_color = ThemeLoader.get_color_for_type(obj.type_id)
-		mat.roughness = 0.7
-		mat.metallic = 0.1
-		obj.get_node("MeshInstance3D").material_override = mat
+		var texture = ThemeLoader.get_texture_for_type(obj.type_id)
+		obj.set_texture(texture)
 		var world_pos = shelf.get_slot_world_position(slot.row, slot.col)
 		obj.position = world_pos
-		obj.rotation.y = randf_range(-0.15, 0.15)
 		shelf.place_object(obj, slot.row, slot.col)
 
 func _input(event: InputEvent) -> void:

@@ -49,7 +49,7 @@ func get_mesh_for_type(type_id: String) -> Mesh:
 
 func get_color_for_type(type_id: String) -> Color:
 	var obj_data = _get_object_data(type_id)
-	if obj_data.is_empty():
+	if obj_data.is_empty() or not obj_data.has("color"):
 		return Color.WHITE
 	var c = obj_data.color
 	return Color(c[0], c[1], c[2])
@@ -71,3 +71,12 @@ func _get_object_data(type_id: String) -> Dictionary:
 		if obj.type_id == type_id:
 			return obj
 	return {}
+	
+func get_texture_for_type(type_id: String) -> Texture2D:
+	var obj_data = _get_object_data(type_id)
+	if obj_data.is_empty():
+		return null
+	var tex_path = "res://assets/themes/" + current_theme.theme_id + "/models/" + obj_data.mesh
+	if ResourceLoader.exists(tex_path):
+		return load(tex_path) as Texture2D
+	return null
