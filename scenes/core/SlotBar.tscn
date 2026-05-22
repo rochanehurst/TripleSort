@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bpiuffeau3g5y"]
+
+[ext_resource type="Script" uid="uid://u7le673qmxut" path="res://scripts/core/SlotBar.gd" id="1_nipsh"]
+
+[node name="SlotBar" type="Control" unique_id=1628408326]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_nipsh")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1911318600]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1

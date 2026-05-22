@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c4c4y53x3sk3s"]
+
+[ext_resource type="Script" uid="uid://dr4gdg574v0ow" path="res://scenes/objects/MatchObject.gd" id="1_k6ukn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_k6ukn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0jfsb"]
+
+[node name="MatchObject" type="StaticBody3D" unique_id=475772464]
+script = ExtResource("1_k6ukn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=144684701]
+mesh = SubResource("BoxMesh_k6ukn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1714606006]
+shape = SubResource("BoxShape3D_0jfsb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2048898374]
