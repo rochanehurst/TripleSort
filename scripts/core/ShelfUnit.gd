@@ -21,7 +21,7 @@ func setup(depth: int) -> void:
 func get_slot_world_position(row: int, col: int) -> Vector3:
 	var x = (col - (SLOTS_PER_ROW / 2.0) + 0.5) * SLOT_SIZE
 	var y = -(row - (ROW_COUNT / 2.0) + 0.5) * SLOT_SIZE
-	var z = 0.0
+	var z = 0.3
 	return global_position + Vector3(x, y, z)
 
 func place_object(obj, row: int, col: int) -> void:
