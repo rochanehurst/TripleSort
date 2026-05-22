@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bbquj64t5c55i" path="res://scripts/core/GameScene.gd" id="1_7b45w"]
 [ext_resource type="PackedScene" uid="uid://bvbqrnl8bj4dp" path="res://scenes/core/Board.tscn" id="2_bs5yt"]
-[ext_resource type="PackedScene" uid="uid://bpiuffeau3g5y" path="res://scenes/core/SlotBar.tscn" id="3_ij4fv"]
 [ext_resource type="PackedScene" uid="uid://d0efv41km3djc" path="res://scenes/core/GameManager.tscn" id="4_0oerv"]
 [ext_resource type="PackedScene" uid="uid://c4c4y53x3sk3s" path="res://scenes/objects/MatchObject.tscn" id="5_bs5yt"]
 [ext_resource type="PackedScene" uid="uid://bvu4oqw00cpae" path="res://scenes/ui/HUD.tscn" id="6_ij4fv"]
@@ -11,8 +10,6 @@
 script = ExtResource("1_7b45w")
 
 [node name="Board" parent="." unique_id=1957956289 instance=ExtResource("2_bs5yt")]
-
-[node name="SlotBar" parent="." unique_id=1628408326 instance=ExtResource("3_ij4fv")]
 
 [node name="GameManager" parent="." unique_id=707595076 instance=ExtResource("4_0oerv")]
 match_object_scene = ExtResource("5_bs5yt")

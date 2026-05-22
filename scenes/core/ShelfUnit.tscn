@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://exv8ur1yl472"]
+
+[ext_resource type="Script" uid="uid://t70kf05doq72" path="res://scripts/core/ShelfUnit.gd" id="1_qj2op"]
+
+[node name="ShelfUnit" type="Node3D" unique_id=1386829052]
+script = ExtResource("1_qj2op")
+
+[node name="SlotsContainer" type="Node3D" parent="." unique_id=1278067937]
